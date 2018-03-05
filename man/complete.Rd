@@ -10,7 +10,7 @@ complete(data)
 \item{data}{A dataframe}
 }
 \value{
-A vector showing the the number of NA values in a dataframe
+A vector showing the number of NA values in each column of a dataframe
 }
 \description{
 Checks the completeness of columns in a dataframe.
