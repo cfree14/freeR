@@ -18,10 +18,11 @@ library(freeR)
 Functions
 ---------
 
-The package implements miscellaneous functions including:
+The package implements miscellaneous functions including functions to:
 
-- Function to check completeness of a dataframe: `?complete`
-- Functions to extract linear regression info: `?r2`, `?pval`, `?slope`
+- Check the completeness of a dataframe: `?complete`
+- Extract linear regression info: `?r2`, `?pval`, `?slope`
+- Raise or lower a number to the nearest x: `?floor1`, `?ceiling1`
 
 
 
