@@ -18,6 +18,6 @@ Lowers a number to the nearest 0.1, 0.5, 1, 5, 10, etc.
 \examples{
 # Lower 0.34 to nearest 0.25
 floor1(0.34, level=0.25)
-#' Raise 35.6 to nearest 30
+#' Lower 35.6 to nearest 30
 floor1(35.6, level=30)
 }
