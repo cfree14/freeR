@@ -17,3 +17,8 @@ An expanded vector of colors
 \description{
 Creates an expanded color palette from an existing color palette by interpolating new colors.
 }
+\examples{
+# Make 15 color palette from 11 color red-blue palette
+library(RColorBrewer)
+colorpal(brewer.pal(11, "RdBu"), 15)
+}
