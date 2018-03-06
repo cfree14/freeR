@@ -23,7 +23,8 @@ The package implements miscellaneous functions including functions to:
 - Check the completeness of a dataframe: `?complete`
 - Extract linear regression info: `?r2`, `?pval`, `?slope`
 - Raise or lower a number to the nearest x: `?floor1`, `?ceiling1`
-- Make color transparent: `?tcolor`
+- Make colors transparent: `?tcolor`
+- Interpolate expanded color palettes: `?colorpal`
 
 
 
