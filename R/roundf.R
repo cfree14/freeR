@@ -9,4 +9,4 @@
 #' @examples
 #' roundf(0.345957, 2)
 #' @export
-roundf <- function(x, decimals){format(round(x, decimals), nsmall=decimals)}
+roundf <- function(x, decimals){trimws(format(round(x, decimals), nsmall=decimals))}
