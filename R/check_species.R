@@ -6,7 +6,7 @@
 #' @param x A character vector of species scientific names
 #' @return A character vector of species scientific names not in FishBase
 #' @examples
-#' # Check names (Gadus morhoa is incorrect)
+#' # Check species names (Gadus morhoa is incorrect)
 #' species <- c("Gadus morhua", "Gadus morhoa")
 #' check_species(species)
 #' @export
