@@ -1,7 +1,7 @@
 
 #' Check marine fish and invertebrate scientific names
 #'
-#' Checks marine fish and invertebrate scientiic names against species in FishBase.
+#' Checks marine fish and invertebrate scientific names against species in FishBase.
 #'
 #' @param x A character vector of species scientific names
 #' @return A character vector of species scientific names not in FishBase
