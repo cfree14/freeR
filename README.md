@@ -27,6 +27,7 @@ The package implements miscellaneous functions including functions to:
 - Make colors transparent: `?tcolor`
 - Interpolate expanded color palettes: `?colorpal`
 - Check marine fish and invertebrate scientific names: `?check_species`
+- Retrieve life history trait predictions from FishLife: `?fishlife`
 
 
 
