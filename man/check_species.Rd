@@ -13,7 +13,7 @@ check_species(species)
 A character vector of species scientific names not in FishBase
 }
 \description{
-Checks marine fish and invertebrate scientiic names against species in FishBase.
+Checks marine fish and invertebrate scientific names against species in FishBase.
 }
 \examples{
 # Check species names (Gadus morhoa is incorrect)
