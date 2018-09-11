@@ -23,7 +23,7 @@ check_species <- function(species){
     unique()
 
   # Check that species are in FB/SLB
-  spp_wrong <- species[!species %in% taxa_key$sciname]
+  spp_wrong <- sort(unique(species[!species %in% taxa_key$sciname]))
   return(spp_wrong)
 
 }
