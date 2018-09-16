@@ -8,9 +8,9 @@
 #' @examples
 #' # Check species names (Gadus morhoa is incorrect)
 #' species <- c("Gadus morhua", "Gadus morhoa")
-#' check_species(species)
+#' check_names(species)
 #' @export
-check_species <- function(species){
+check_names <- function(species){
 
   # Build FB/SLB taxa key
   taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>% mutate(type="fish") %>% select(type, everything())
