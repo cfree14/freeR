@@ -26,6 +26,7 @@ The package implements miscellaneous functions including functions to:
 - Round and format number to specified decimal place: `?roundf`
 - Make colors transparent: `?tcolor`
 - Interpolate expanded color palettes: `?colorpal`
+- Convert text to sentence case: `?sentcase`
 - Check marine fish and invertebrate scientific names: `?check_species`
 - Retrieve life history trait predictions from FishLife: `?fishlife`
 
