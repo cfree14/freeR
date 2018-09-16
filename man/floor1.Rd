@@ -8,6 +8,8 @@ floor1(x, level)
 }
 \arguments{
 \item{x}{A number}
+
+\item{level}{The "level" to round the number to}
 }
 \value{
 A rounded number

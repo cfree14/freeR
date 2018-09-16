@@ -7,7 +7,7 @@
 fishlife(species)
 }
 \arguments{
-\item{x}{A character vector of species scientific names}
+\item{species}{A character vector of species scientific names}
 }
 \value{
 A dataframe with life history trait predictions from FishLife for each species

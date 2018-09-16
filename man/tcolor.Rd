@@ -8,6 +8,8 @@ tcolor(color, alpha)
 }
 \arguments{
 \item{color}{A color (e.g., "green", "#4FFF33)}
+
+\item{alpha}{The transparency level (0-1; 0=invisible, 1=opaque)}
 }
 \value{
 A color with transparency

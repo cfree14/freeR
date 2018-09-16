@@ -4,7 +4,7 @@
 #' Retrieves life history trait predictions from FishLife (Thorson et al. 2018). This
 #' is a wrapper for the Plot_taxa() function in the FishLife R package.
 #'
-#' @param x A character vector of species scientific names
+#' @param species A character vector of species scientific names
 #' @return A dataframe with life history trait predictions from FishLife for each species
 #' @examples
 #' # Look up life history traits
