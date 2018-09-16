@@ -7,7 +7,7 @@
 check_species(species)
 }
 \arguments{
-\item{x}{A character vector of species scientific names}
+\item{species}{A character vector of species scientific names}
 }
 \value{
 A character vector of species scientific names not in FishBase

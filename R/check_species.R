@@ -3,7 +3,7 @@
 #'
 #' Checks marine fish and invertebrate scientific names against species in FishBase.
 #'
-#' @param x A character vector of species scientific names
+#' @param species A character vector of species scientific names
 #' @return A character vector of species scientific names not in FishBase
 #' @examples
 #' # Check species names (Gadus morhoa is incorrect)
