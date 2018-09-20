@@ -27,6 +27,7 @@ The package implements miscellaneous functions including functions to:
 - Make colors transparent: `?tcolor`
 - Interpolate expanded color palettes: `?colorpal`
 - Convert text to sentence case: `?sentcase`
+- Get taxonomic information for marine fish and invertebrates: `?taxa`
 - Check marine fish and invertebrate scientific names: `?check_names`
 - Suggest correct scientific names for invalid fish and invert names: `?suggest_names`
 - Retrieve life history trait predictions from FishLife: `?fishlife`
