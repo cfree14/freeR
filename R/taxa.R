@@ -16,15 +16,17 @@ taxa <- function(species){
   taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
     mutate(type="fish") %>%
     select(type, everything()) %>%
-    setNames(tolower(colnames(.)))
+    setNames(tolower(colnames(.))) %>%
+    rename(sciname=species) %>%
+    mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
   taxa_key_slb <- rfishbase::sealifebase %>%
     mutate(type="invert") %>%
     select(type, everything()) %>%
-    setNames(tolower(colnames(.)))
+    setNames(tolower(colnames(.))) %>%
+    mutate(sciname=paste(genus, species))
   taxa_key <-  taxa_key_fb %>%
     bind_rows(taxa_key_slb) %>%
     setNames(tolower(names(.))) %>%
-    mutate(sciname=paste(genus, species)) %>%
     select(type, class, order, family, genus, species, sciname) %>%
     unique()
 
@@ -34,3 +36,8 @@ taxa <- function(species){
   return(key)
 
 }
+
+
+
+
+
