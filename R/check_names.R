@@ -13,8 +13,14 @@
 check_names <- function(species){
 
   # Build FB/SLB taxa key
-  taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>% mutate(type="fish") %>% select(type, everything())
-  taxa_key_slb <- rfishbase::sealifebase %>% mutate(type="invert") %>% select(type, everything())
+  taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+    mutate(type="fish") %>%
+    select(type, everything()) %>%
+    setNames(tolower(colnames(.)))
+  taxa_key_slb <- rfishbase::sealifebase %>%
+    mutate(type="invert") %>%
+    select(type, everything()) %>%
+    setNames(tolower(colnames(.)))
   taxa_key <-  taxa_key_fb %>%
     bind_rows(taxa_key_slb) %>%
     setNames(tolower(names(.))) %>%
