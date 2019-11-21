@@ -42,11 +42,12 @@ fishbase <- function(dataset, species, level="species"){
     inv <- rfishbase::length_weight(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
     fbdata <- rbind(fin, inv) %>%
       filter(!is.na(Species)) %>%
-      select(database, Species, Type, Sex, LengthMin, LengthMax,  a, aTL, b) %>%
-      rename(length_min_cm=LengthMin, length_max_cm=LengthMax, a_tl=aTL) %>%
+      select(database, Species, Type, Sex, LengthMin, LengthMax,  a, aTL, b, EsQ) %>%
+      rename(length_min_cm=LengthMin, length_max_cm=LengthMax, a_tl=aTL, doubtful=EsQ) %>%
       setNames(tolower(colnames(.))) %>%
       arrange(database, species) %>%
-      mutate(sex=tolower(sex))
+      mutate(sex=tolower(sex),
+             doubtful=tolower(doubtful))
   }
 
   # Von B parameters
@@ -55,11 +56,13 @@ fishbase <- function(dataset, species, level="species"){
     inv <- rfishbase::popgrowth(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
     fbdata <- rbind(fin, inv) %>%
       filter(!is.na(Species)) %>%
-      select(database, Species, Sex, Data,MethodGrowth, Type, Loo, TLinfinity, K, to, Winfinity, tmax, tm, M, MethodM, Mquality) %>%
+      select(database, Species, Sex, Data,MethodGrowth, Type, Loo, TLinfinity, K, to, Winfinity, Auxim, tmax, tm, M, MethodM, Mquality) %>%
       rename(linf_cm=Loo, tl_linf_cm=TLinfinity, winf_g=Winfinity, tmax_yr=tmax, tmat_yr=tm, m_method=MethodM, m_quality=Mquality,
-             vonb_data=Data, vonb_method=MethodGrowth, t0=to) %>%
+             vonb_data=Data, vonb_method=MethodGrowth, t0=to, vonb_quality=Auxim) %>%
       setNames(tolower(colnames(.))) %>%
-      arrange(database, species)
+      arrange(database, species) %>%
+      mutate(vonb_quality=tolower(vonb_quality),
+             m_quality=tolower(m_quality))
   }
 
   # Return
