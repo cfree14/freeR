@@ -3,17 +3,21 @@
 #'
 #' Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
 #'
-#' @param dataset FishBase/SeaLifeBase dataset to download: "species", "lw", "vonb", "ecology"
+#' @param dataset FishBase/SeaLifeBase dataset to download: "species", "lw", "vonb", "ecology", "maturity", "fecundity"
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
 #' @return A cdataframe if life history traits from FishBase/SeaLifeBase
 #' @examples
 #' # Download cleaned FishBase life history data
-#' species <- c("Magallana gigas", "Gadus morhua")
+#' species <- c("Callinectes sapidus", "Gadus morhua")
 #' lh_data <- fishbase(dataset="ecology", species=species, level="species", cleaned=T)
 #' @export
 fishbase <- function(dataset, species, level="species", cleaned=F){
+
+  # Functionality to add
+  # 1) Append taxanomic info to output
+  # 2) rfishbase functions: reproduction, eggs, morphology,
 
   # All FB/SLB taxa
   fbtaxa <- freeR::all_fish()
@@ -92,11 +96,13 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
 
   # Species
   if(dataset=="species"){
+    # Get all data
     fin <- rfishbase::species(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::species(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
     fbdata_orig <- rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
+    # Clean data
     if(cleaned==T){
       fbdata <- fbdata_orig %>%
         filter(!is.na(Species)) %>%
@@ -108,6 +114,60 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
         rename(comm_name=f_bname, body_shape=body_shape_i, habitat=demers_pelag, migratory=ana_cat, tmax_wild_yr=longevity_wild,
                lmax_cm=length, lmax_type=l_type_max_m, price_catg=price_categ,
                main_gear=main_catching_method, aquaculture=usedfor_aquaculture, bait=usedas_bait)
+    }
+  }
+
+  # Maturity
+  if(dataset=="maturity"){
+    # Get all data
+    fin <- rfishbase::maturity(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::maturity(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata_orig <- rbind.fill(fin, inv) %>%
+      filter(!is.na(Species))
+    fbdata <- fbdata_orig
+    # Clean data
+    if(cleaned==T){
+      fbdata <- fbdata_orig %>%
+        filter(!is.na(Species)) %>%
+        # Select columns
+        select(database, Species, Sex, Locality, tm, AgeMatMin, AgeMatMin2,  Type1, Lm, LengthMatMin, LengthMatMin2) %>%
+        # Rename columns
+        rename(species=Species, sex=Sex, location=Locality,
+               tmat_yr_lo=AgeMatMin, tmat_yr_hi=AgeMatMin2, tmat_yr=tm,
+               lmat_cm_lo=LengthMatMin, lmat_cm_hi=LengthMatMin2, lmat_cm=Lm, lmat_type=Type1)
+    }
+  }
+
+  # Fecundity
+  if(dataset=="fecundity"){
+    # Get all data
+    fin <- rfishbase::fecundity(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::fecundity(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata_orig <- rbind.fill(fin, inv) %>%
+      filter(!is.na(Species))
+    fbdata <- fbdata_orig
+    # Clean data
+    if(cleaned==T){
+      fbdata <- fbdata_orig %>%
+        filter(!is.na(Species)) %>%
+        # Select columns
+        select(database, Species, Locality,
+               FecundityMin, FecundityMax,
+               RelFecundityMin, RelFecundityMax, RelFecundityMean,
+               a, b,
+               WeightMin, WeightMax,
+               LengthFecunMin, LengthFecunMax,
+               LengthTypeFecMin, LengthTypeFecMax,
+               FecComment) %>%
+        # Rename columns
+        rename(species=Species, location=Locality,
+               weight_g_min=WeightMin, weight_g_max=WeightMax,
+               length_cm_min=LengthFecunMin, length_cm_max=LengthFecunMax,
+               length_cm_min_type=LengthTypeFecMin, length_cm_max_type=LengthTypeFecMax,
+               comments=FecComment,
+               fecundity_abs_min=FecundityMin, fecundity_abs_max=FecundityMax,
+               fecundity_rel_min=RelFecundityMin, fecundity_rel_max=RelFecundityMax, fecundity_rel_avg=RelFecundityMean,
+               length_fecundity_a=a, length_fecundity_b=b)
     }
   }
 
