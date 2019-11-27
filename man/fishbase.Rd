@@ -4,7 +4,7 @@
 \alias{fishbase}
 \title{Download cleaned FishBase/SeaLifeBase life history data}
 \usage{
-fishbase(dataset, species, level = "species")
+fishbase(dataset, species, level = "species", cleaned = F)
 }
 \arguments{
 \item{dataset}{FishBase/SeaLifeBase dataset to download: "lw", "vonb", "ecology"}
@@ -12,6 +12,8 @@ fishbase(dataset, species, level = "species")
 \item{species}{A character vector of species scientific names to look up}
 
 \item{level}{Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.}
+
+\item{cleaned}{FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns}
 }
 \value{
 A cdataframe if life history traits from FishBase/SeaLifeBase
@@ -22,5 +24,5 @@ Downloads FishBase and SeaLifeBase life history data using rfishbase. The downlo
 \examples{
 # Download cleaned FishBase life history data
 species <- c("Magallana gigas", "Gadus morhua")
-lh_data <- fishbase(dataset="vonb", species=species, level="species")
+lh_data <- fishbase(dataset="ecology", species=species, level="species", cleaned=T)
 }
