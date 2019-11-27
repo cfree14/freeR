@@ -3,7 +3,7 @@
 #'
 #' Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
 #'
-#' @param dataset FishBase/SeaLifeBase dataset to download: "lw", "vonb", "ecology"
+#' @param dataset FishBase/SeaLifeBase dataset to download: "species", "lw", "vonb", "ecology"
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
@@ -87,6 +87,27 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
         janitor::clean_names("snake") %>%
         rename(prey_type=herbivory2, troph_diet=diet_troph, troph_diet_se=diet_se_troph, troph_diet_notes=diet_remark,
                troph_food=food_troph, troph_food_se=food_se_troph, troph_food_notes=food_remark)
+    }
+  }
+
+  # Species
+  if(dataset=="species"){
+    fin <- rfishbase::species(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::species(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata_orig <- rbind.fill(fin, inv) %>%
+      filter(!is.na(Species))
+    fbdata <- fbdata_orig
+    if(cleaned==T){
+      fbdata <- fbdata_orig %>%
+        filter(!is.na(Species)) %>%
+        # Select columns
+        select(database, Species, FBname, BodyShapeI, DemersPelag, AnaCat, LongevityWild, Vulnerability, Length, LTypeMaxM,
+               Importance, PriceCateg, PriceReliability, MainCatchingMethod, UsedforAquaculture, UsedasBait, Aquarium, Dangerous, Comments) %>%
+        # Rename columns
+        janitor::clean_names("snake") %>%
+        rename(comm_name=f_bname, body_shape=body_shape_i, habitat=demers_pelag, migratory=ana_cat, tmax_wild_yr=longevity_wild,
+               lmax_cm=length, lmax_type=l_type_max_m, price_catg=price_categ,
+               main_gear=main_catching_method, aquaculture=usedfor_aquaculture, bait=usedas_bait)
     }
   }
 
