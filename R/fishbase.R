@@ -3,19 +3,19 @@
 #'
 #' Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
 #'
-#' @param dataset FishBase/SeaLifeBase dataset to download: "lw" or "vonb"
+#' @param dataset FishBase/SeaLifeBase dataset to download: "lw", "vonb", "ecology"
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @return A cdataframe if life history traits from FishBase/SeaLifeBase
 #' @examples
 #' # Download cleaned FishBase life history data
-#' spp <- c("Magallana gigas", "Gadus morhua")
-#' lh_data <- fishbase(dataset="vonb", species=spp, level="genus")
+#' species <- c("Magallana gigas", "Gadus morhua")
+#' lh_data <- fishbase(dataset="vonb", species=species, level="species")
 #' @export
 fishbase <- function(dataset, species, level="species"){
 
   # All FB/SLB taxa
-  fbtaxa <- all_fish()
+  fbtaxa <- freeR::all_fish()
 
   # What species to look up?
   if(level=="species"){
@@ -63,6 +63,19 @@ fishbase <- function(dataset, species, level="species"){
       arrange(database, species) %>%
       mutate(vonb_quality=tolower(vonb_quality),
              m_quality=tolower(m_quality))
+  }
+
+  # Ecology
+  if(dataset=="ecology"){
+    fin <- rfishbase::ecology(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::ecology(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata <- rbind.fill(fin, inv) %>%
+      filter(!is.na(Species)) %>%
+      select(database, Species, Herbivory2, FeedingType, DietTroph, DietSeTroph, DietRemark, FoodTroph, FoodSeTroph, FoodRemark) %>%
+      janitor::clean_names("snake") %>%
+      rename(prey_type=herbivory2, troph_diet=diet_troph, troph_diet_se=diet_se_troph, troph_diet_notes=diet_remark,
+             troph_food=food_troph, troph_food_se=food_se_troph, troph_food_notes=food_remark)
+
   }
 
   # Return

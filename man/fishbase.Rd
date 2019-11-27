@@ -7,7 +7,7 @@
 fishbase(dataset, species, level = "species")
 }
 \arguments{
-\item{dataset}{FishBase/SeaLifeBase dataset to download: "lw" or "vonb"}
+\item{dataset}{FishBase/SeaLifeBase dataset to download: "lw", "vonb", "ecology"}
 
 \item{species}{A character vector of species scientific names to look up}
 
@@ -21,6 +21,6 @@ Downloads FishBase and SeaLifeBase life history data using rfishbase. The downlo
 }
 \examples{
 # Download cleaned FishBase life history data
-spp <- c("Magallana gigas", "Gadus morhua")
-lh_data <- fishbase(dataset="vonb", species=spp, level="genus")
+species <- c("Magallana gigas", "Gadus morhua")
+lh_data <- fishbase(dataset="vonb", species=species, level="species")
 }
