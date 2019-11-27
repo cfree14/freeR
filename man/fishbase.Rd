@@ -7,7 +7,7 @@
 fishbase(dataset, species, level = "species", cleaned = F)
 }
 \arguments{
-\item{dataset}{FishBase/SeaLifeBase dataset to download: "species", "lw", "vonb", "ecology", "maturity", "fecundity"}
+\item{dataset}{FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology}
 
 \item{species}{A character vector of species scientific names to look up}
 
