@@ -45,7 +45,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
   if(dataset=="lw"){
     fin <- rfishbase::length_weight(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::length_weight(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata <- rbind.fill(fin, inv) %>%
+    fbdata <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     if(cleaned==T){
       fbdata <- fbdata %>%
@@ -63,7 +63,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
   if(dataset=="vonb"){
     fin <- rfishbase::popgrowth(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::popgrowth(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata <- rbind.fill(fin, inv) %>%
+    fbdata <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     if(cleaned==T){
       fbdata <- fbdata %>%
@@ -82,7 +82,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
   if(dataset=="ecology"){
     fin <- rfishbase::ecology(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::ecology(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata <- rbind.fill(fin, inv) %>%
+    fbdata <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     if(cleaned==T){
       fbdata <- fbdata %>%
@@ -99,7 +99,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
     # Get all data
     fin <- rfishbase::species(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::species(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata_orig <- rbind.fill(fin, inv) %>%
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     # Clean data
@@ -122,7 +122,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
     # Get all data
     fin <- rfishbase::maturity(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::maturity(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata_orig <- rbind.fill(fin, inv) %>%
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     # Clean data
@@ -143,7 +143,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
     # Get all data
     fin <- rfishbase::fecundity(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::fecundity(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata_orig <- rbind.fill(fin, inv) %>%
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     # Clean data
@@ -176,7 +176,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
     # Get all data
     fin <- rfishbase::reproduction(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::reproduction(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata_orig <- rbind.fill(fin, inv) %>%
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     # Clean data
@@ -197,7 +197,7 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
     # Get all data
     fin <- rfishbase::morphology(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
     inv <- rfishbase::morphology(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
-    fbdata_orig <- rbind.fill(fin, inv) %>%
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     if(cleaned==T){print("No cleaning performed. Complicated dataset!")}
