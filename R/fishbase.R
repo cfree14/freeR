@@ -107,13 +107,15 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
       fbdata <- fbdata_orig %>%
         filter(!is.na(Species)) %>%
         # Select columns
-        select(database, Species, FBname, BodyShapeI, DemersPelag, AnaCat, LongevityWild, Vulnerability, Length, LTypeMaxM,
-               Importance, PriceCateg, PriceReliability, MainCatchingMethod, UsedforAquaculture, UsedasBait, Aquarium, Dangerous, Comments) %>%
+        select(database, Species, FBname, BodyShapeI, DemersPelag, AnaCat,
+               LongevityWild, Vulnerability, Length, LTypeMaxM, Weight,
+               Importance, PriceCateg, PriceReliability, MainCatchingMethod,
+               UsedforAquaculture, UsedasBait, Aquarium, Dangerous, Comments) %>%
         # Rename columns
         janitor::clean_names("snake") %>%
-        rename(comm_name=f_bname, body_shape=body_shape_i, habitat=demers_pelag, migratory=ana_cat, tmax_wild_yr=longevity_wild,
-               lmax_cm=length, lmax_type=l_type_max_m, price_catg=price_categ,
-               main_gear=main_catching_method, aquaculture=usedfor_aquaculture, bait=usedas_bait)
+        rename(comm_name=f_bname, body_shape=body_shape_i, habitat=demers_pelag, migratory=ana_cat,
+               tmax_wild_yr=longevity_wild, lmax_cm=length, lmax_type=l_type_max_m, wmax_g=weight,
+               price_catg=price_categ, main_gear=main_catching_method, aquaculture=usedfor_aquaculture, bait=usedas_bait)
     }
   }
 
