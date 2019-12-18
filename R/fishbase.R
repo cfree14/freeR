@@ -7,13 +7,14 @@
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
+#' @param add_taxa TRUE means taxonomic information is added to the life history data
 #' @return A cdataframe if life history traits from FishBase/SeaLifeBase
 #' @examples
 #' # Download cleaned FishBase life history data
 #' species <- c("Callinectes sapidus", "Gadus morhua")
 #' lh_data <- fishbase(dataset="ecology", species=species, level="species", cleaned=T)
 #' @export
-fishbase <- function(dataset, species, level="species", cleaned=F){
+fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
 
   # Functionality to add
   # 1) Append taxanomic info to output
@@ -203,6 +204,18 @@ fishbase <- function(dataset, species, level="species", cleaned=F){
       filter(!is.na(Species))
     fbdata <- fbdata_orig
     if(cleaned==T){print("No cleaning performed. Complicated dataset!")}
+  }
+
+  # Add taxonomic information
+  if(add_taxa & cleaned){
+    fbdata <- fbdata %>%
+      left_join(select(fbtaxa, class, order, family, genus, sciname), by=c("species"="sciname")) %>%
+      select(database, class, order, family, genus, species, everything())
+  }
+  if(add_taxa & cleaned==F){
+    fbdata <- fbdata %>%
+      left_join(select(fbtaxa, class, order, family, genus, sciname), by=c("Species"="sciname")) %>%
+      select(database, class, order, family, genus, Species, everything())
   }
 
   # Return
