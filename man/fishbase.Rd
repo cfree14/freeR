@@ -4,7 +4,7 @@
 \alias{fishbase}
 \title{Download cleaned FishBase/SeaLifeBase life history data}
 \usage{
-fishbase(dataset, species, level = "species", cleaned = F)
+fishbase(dataset, species, level = "species", cleaned = F, add_taxa = T)
 }
 \arguments{
 \item{dataset}{FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology}
@@ -14,6 +14,8 @@ fishbase(dataset, species, level = "species", cleaned = F)
 \item{level}{Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.}
 
 \item{cleaned}{FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns}
+
+\item{add_taxa}{TRUE means taxonomic information is added to the life history data}
 }
 \value{
 A cdataframe if life history traits from FishBase/SeaLifeBase
