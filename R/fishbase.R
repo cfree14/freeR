@@ -3,7 +3,7 @@
 #'
 #' Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
 #'
-#' @param dataset FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology, ecosystem
+#' @param dataset FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology, ecosystem, speed
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
@@ -187,7 +187,8 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
       fbdata <- fbdata_orig %>%
         filter(!is.na(Species)) %>%
         # Select columns
-        select(database, Species, ReproMode, Fertilization, MatingSystem, MonogamyType, MatingQuality, Spawning, RepGuild1, RepGuild2, ParentalCare, AddInfos) %>%
+        select(database, Species, ReproMode, Fertilization, MatingSystem, MonogamyType,
+               MatingQuality, Spawning, RepGuild1, RepGuild2, ParentalCare, AddInfos) %>%
         # Rename columns
         janitor::clean_names("snake") %>%
         rename(repro_guild1=rep_guild1, repro_guild2=rep_guild2, comments=add_infos)
@@ -216,6 +217,37 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
     fbdata <- fbdata_orig
     # Clean data
     if(cleaned==T){print("No cleaning performed. Complicated dataset!")}
+  }
+
+  # Diet
+  if(dataset=="diet"){
+    # Get all data
+    fin <- rfishbase::diet(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::diet(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
+      filter(!is.na(Species))
+    fbdata <- fbdata_orig
+    # Clean data
+    if(cleaned==T){print("No cleaning performed. Will add with demand.")}
+  }
+
+  # Speed
+  if(dataset=="speed"){
+    # Get all data
+    print("SeaLifeBase does not, to my knowledge, report speed information.")
+    fin <- rfishbase::speed(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    fbdata_orig <- fin
+    fbdata <- fbdata_orig
+    # Clean data
+    if(cleaned==T){
+      fbdata <- fbdata_orig %>%
+        filter(!is.na(Species)) %>%
+        # Select columns
+        select(database, Species, Length, LengthType, SpeedLS, LengthTypeSpeed, Speedms, Mode) %>%
+        # Rename columns
+        janitor::clean_names("snake") %>%
+        rename(legnth_cm=length, speed_lengths_second=speed_ls, speed_meters_second=speedms)
+    }
   }
 
   # Add taxonomic information
