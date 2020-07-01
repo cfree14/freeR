@@ -3,12 +3,12 @@
 #'
 #' Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
 #'
-#' @param dataset FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology
+#' @param dataset FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology, ecosystem
 #' @param species A character vector of species scientific names to look up
 #' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
 #' @param add_taxa TRUE means taxonomic information is added to the life history data
-#' @return A cdataframe if life history traits from FishBase/SeaLifeBase
+#' @return A dataframe of life history traits from FishBase/SeaLifeBase
 #' @examples
 #' # Download cleaned FishBase life history data
 #' species <- c("Callinectes sapidus", "Gadus morhua")
@@ -203,6 +203,18 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
     fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
       filter(!is.na(Species))
     fbdata <- fbdata_orig
+    if(cleaned==T){print("No cleaning performed. Complicated dataset!")}
+  }
+
+  # Ecosystem
+  if(dataset=="ecosystem"){
+    # Get all data
+    fin <- rfishbase::ecosystem(spp_list$sciname, server="fishbase") %>% mutate(database="FishBase") %>% select(database, everything())
+    inv <- rfishbase::ecosystem(spp_list$sciname, server="sealifebase") %>% mutate(database="SeaLifeBase") %>% select(database, everything())
+    fbdata_orig <- plyr::rbind.fill(fin, inv) %>%
+      filter(!is.na(Species))
+    fbdata <- fbdata_orig
+    # Clean data
     if(cleaned==T){print("No cleaning performed. Complicated dataset!")}
   }
 

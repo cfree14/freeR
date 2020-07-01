@@ -7,7 +7,7 @@
 fishbase(dataset, species, level = "species", cleaned = F, add_taxa = T)
 }
 \arguments{
-\item{dataset}{FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology}
+\item{dataset}{FishBase/SeaLifeBase dataset to download: species, lw, vonb, ecology, maturity, fecundity, reproduction, morphology, ecosystem}
 
 \item{species}{A character vector of species scientific names to look up}
 
@@ -18,7 +18,7 @@ fishbase(dataset, species, level = "species", cleaned = F, add_taxa = T)
 \item{add_taxa}{TRUE means taxonomic information is added to the life history data}
 }
 \value{
-A cdataframe if life history traits from FishBase/SeaLifeBase
+A dataframe of life history traits from FishBase/SeaLifeBase
 }
 \description{
 Downloads FishBase and SeaLifeBase life history data using rfishbase. The download comes cleaned and the function includes the option to return life history for all of the species included in either the genera or the families of the species requested (this is useful when calculating genus- or family-level life history averages.)
