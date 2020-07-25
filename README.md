@@ -36,6 +36,7 @@ The package implements miscellaneous functions including functions to:
 - Retrieve life history trait observations from FishBase: `?fishbase`
 - Retrieve life history trait predictions from FishLife: `?fishlife`
 - Convert a dataframe with XYZ for multiple layers to a raster brick: `?df2brick`
+- Find the first X day in a month over one or many years: `?first_wday_in_month`
 
 
 
