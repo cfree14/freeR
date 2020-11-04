@@ -12,7 +12,7 @@
 #' @examples
 #' # Download cleaned FishBase life history data
 #' species <- c("Callinectes sapidus", "Gadus morhua")
-#' lh_data <- fishbase(dataset="ecology", species=species, level="species", cleaned=T)
+#' lh_data <- fishbase(dataset="species", species=species, level="species", cleaned=T)
 #' @export
 fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
 

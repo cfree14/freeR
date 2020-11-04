@@ -26,5 +26,5 @@ Downloads FishBase and SeaLifeBase life history data using rfishbase. The downlo
 \examples{
 # Download cleaned FishBase life history data
 species <- c("Callinectes sapidus", "Gadus morhua")
-lh_data <- fishbase(dataset="ecology", species=species, level="species", cleaned=T)
+lh_data <- fishbase(dataset="species", species=species, level="species", cleaned=T)
 }
