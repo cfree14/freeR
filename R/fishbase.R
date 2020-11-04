@@ -24,18 +24,19 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
   fbtaxa <- freeR::all_fish()
 
   # What species to look up?
+  species_unique <- sort(unique(species))
   if(level=="species"){
-    spp_list <- tibble(sciname=species)
+    spp_list <- tibble(sciname=species_unique)
   }
   if(level=="genus"){
-    spp_genera <- freeR::taxa(species) %>%
+    spp_genera <- freeR::taxa(species_unique) %>%
       select(genus) %>%
       unique() %>% arrange()
     spp_list <- fbtaxa %>%
       filter(genus %in% spp_genera$genus)
   }
   if(level=="family"){
-    spp_families <- freeR::taxa(species) %>%
+    spp_families <- freeR::taxa(species_unique) %>%
       select(family) %>%
       unique() %>% arrange()
     spp_list <- fbtaxa %>%
