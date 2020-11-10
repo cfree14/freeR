@@ -74,7 +74,9 @@ fb_comm_name <- function(species){
     slice(1) %>%
     ungroup() %>%
     # Replace <> with *
-    mutate(comm_name=gsub( " *<.*?> *", "*", comm_name))
+    mutate(comm_name=gsub( " *<.*?> *", "*", comm_name)) %>%
+    # Capitalize first letter
+    mutate(comm_name=stringr::str_to_sentence(comm_name))
 
   # Check for duplicates
   freeR::which_duplicated(spp_key$species)
