@@ -8,7 +8,7 @@
 #' @return A dataframe of species common names and their sources
 #' @examples
 #' # Get common names
-#' species <- c("Gadus morhua", "Clupea harengus")
+#' species <- c("Gadus morhua", "Clupea harengus", "Callinectes sapidus")
 #' fb_comm_name(species)
 #' @export
 fb_comm_name <- function(species){
