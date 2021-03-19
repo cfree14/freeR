@@ -21,12 +21,14 @@ suggest_names <- function(species){
 
   # Build FB/SLB taxa key
   taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+    as.data.frame() %>%
     mutate(type="fish") %>%
     select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
     rename(sciname=species) %>%
     mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
   taxa_key_slb <- rfishbase::sealifebase %>%
+    as.data.frame() %>%
     mutate(type="invert") %>%
     select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%

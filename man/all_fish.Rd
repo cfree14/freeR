@@ -10,7 +10,7 @@ all_fish()
 A dataframe of taxonomic information for all FB/SLB fish and invertebrates
 }
 \description{
-Returns a dataframe with the taxonomic information for all fish and invertebrates in FishBase and SeaLifeBase. 
+Returns a dataframe with the taxonomic information for all fish and invertebrates in FishBase and SeaLifeBase.
 There are >34,000 fish and >117,000 invertebrates described by these two databases.
 }
 \examples{

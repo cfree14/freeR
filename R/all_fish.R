@@ -1,7 +1,7 @@
 
 #' All fish and invertebrates in FishBase and SeaLifeBase
 #'
-#' Returns a dataframe with the taxonomic information for all fish and invertebrates in FishBase and SeaLifeBase. 
+#' Returns a dataframe with the taxonomic information for all fish and invertebrates in FishBase and SeaLifeBase.
 #' There are >34,000 fish and >117,000 invertebrates described by these two databases.
 #'
 #' @return A dataframe of taxonomic information for all FB/SLB fish and invertebrates
@@ -12,12 +12,14 @@
 all_fish <- function(){
   # Build FB/SLB taxa key
   taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+    as.data.frame() %>%
     mutate(type="fish") %>%
     select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
     rename(sciname=species) %>%
     mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
   taxa_key_slb <- rfishbase::sealifebase %>%
+    as.data.frame() %>%
     mutate(type="invert") %>%
     select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%

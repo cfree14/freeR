@@ -14,20 +14,22 @@ check_names <- function(species){
 
   # Build FB/SLB taxa key
   taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
-    mutate(type="fish") %>%
-    select(type, everything()) %>%
+    as.data.frame() %>%
+    dplyr::mutate(type="fish") %>%
+    dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    rename(sciname=species) %>%
-    mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
+    dplyr::rename(sciname=species) %>%
+    dplyr::mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
   taxa_key_slb <- rfishbase::sealifebase %>%
-    mutate(type="invert") %>%
-    select(type, everything()) %>%
+    as.data.frame() %>%
+    dplyr::mutate(type="invert") %>%
+    dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    mutate(sciname=paste(genus, species))
+    dplyr::mutate(sciname=paste(genus, species))
   taxa_key <-  taxa_key_fb %>%
     bind_rows(taxa_key_slb) %>%
     setNames(tolower(names(.))) %>%
-    select(type, class, order, family, genus, species, sciname) %>%
+    dplyr::select(type, class, order, family, genus, species, sciname) %>%
     unique()
 
   # Check that species are in FB/SLB
