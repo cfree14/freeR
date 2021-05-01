@@ -19,38 +19,41 @@ suggest_names <- function(species){
   # Suppress warnings temporarily
   options(warn=-1)
 
-  # Build FB/SLB taxa key
-  taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+  # FishBase taxa
+  taxa_key_fb <- rfishbase::fishbase %>%
     as.data.frame() %>%
-    mutate(type="fish") %>%
-    select(type, everything()) %>%
+    dplyr::mutate(type="fish") %>%
+    dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    rename(sciname=species) %>%
-    mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
+    dplyr::mutate(sciname=paste(genus, species))
+
+  # SeaLifeBase taxa
   taxa_key_slb <- rfishbase::sealifebase %>%
     as.data.frame() %>%
-    mutate(type="invert") %>%
-    select(type, everything()) %>%
+    dplyr::mutate(type="invert") %>%
+    dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    mutate(sciname=paste(genus, species))
+    dplyr::mutate(sciname=paste(genus, species))
+
+  # Merged taxa
   taxa_key <-  taxa_key_fb %>%
     bind_rows(taxa_key_slb) %>%
     setNames(tolower(names(.))) %>%
-    select(type, class, order, family, genus, species, sciname) %>%
+    dplyr::select(type, class, order, family, genus, species, sciname) %>%
     unique()
 
   # Identify incorrect names
   wrong <- sort(unique(species[!species %in% taxa_key$sciname]))
 
   # Check FishBase synonyms
-  options(FISHBASE_API = "https://fishbase.ropensci.org")
-  check1 <- lapply(wrong, function(x) rfishbase::validate_names(x))
+  # options(FISHBASE_API = "https://fishbase.ropensci.org")
+  check1 <- lapply(wrong, function(x) rfishbase::validate_names(species_list=x, server="FISHBASE_API"))
   names(check1) <- wrong
 
   # Check SeaLifeBase synonyms
-  options(FISHBASE_API = "https://fishbase.ropensci.org/sealifebase")
+  # options(FISHBASE_API = "https://fishbase.ropensci.org/sealifebase")
   wrong_still <- names(check1[is.na(check1)])
-  check2 <- lapply(wrong_still, function(x) rfishbase::validate_names(x))
+  check2 <- lapply(wrong_still, function(x) rfishbase::validate_names(x, server="sealifebase"))
   names(check2) <- wrong_still
 
   # Fuzzy match against FB/SLB

@@ -12,20 +12,23 @@
 #' @export
 check_names <- function(species){
 
-  # Build FB/SLB taxa key
-  taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+  # FishBase taxa
+  taxa_key_fb <- rfishbase::fishbase %>%
     as.data.frame() %>%
     dplyr::mutate(type="fish") %>%
     dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    dplyr::rename(sciname=species) %>%
-    dplyr::mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length)))
+    dplyr::mutate(sciname=paste(genus, species))
+
+  # SeaLifeBase taxa
   taxa_key_slb <- rfishbase::sealifebase %>%
     as.data.frame() %>%
     dplyr::mutate(type="invert") %>%
     dplyr::select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
     dplyr::mutate(sciname=paste(genus, species))
+
+  # Merged taxa
   taxa_key <-  taxa_key_fb %>%
     bind_rows(taxa_key_slb) %>%
     setNames(tolower(names(.))) %>%
