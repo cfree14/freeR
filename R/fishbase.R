@@ -132,7 +132,8 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
     # Clean data
     # I haven't cleaned this data yet
     if(cleaned==T){
-      fbdata <- fbdata_orig
+      fbdata <- fbdata_orig %>%
+        janitor::clean_names("snake")
     }
   }
 
