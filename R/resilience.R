@@ -15,11 +15,16 @@ resilience <- function(species){
   # Get resilience
   spp_info <- freeR::fishbase(dataset="stocks", species=sort(unique(species)), cleaned = F, level="species", add_taxa = F)
   res_info <- spp_info %>%
+    # Clean names
     janitor::clean_names("snake") %>%
+    # Simplify
     select(species, resilience) %>%
+    # Unique names and sorted
     unique() %>%
     arrange(species) %>%
+    # Eliminate NA values
     filter(!is.na(resilience)) %>%
+    # Select first resilience value
     group_by(species) %>%
     slice(1) %>%
     ungroup()
