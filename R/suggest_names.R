@@ -47,7 +47,7 @@ suggest_names <- function(species){
 
   # Check FishBase synonyms
   # options(FISHBASE_API = "https://fishbase.ropensci.org")
-  check1 <- lapply(wrong, function(x) rfishbase::validate_names(species_list=x, server="FISHBASE_API"))
+  check1 <- lapply(wrong, function(x) rfishbase::validate_names(species_list=x, server="fishbase"))
   names(check1) <- wrong
 
   # Check SeaLifeBase synonyms
