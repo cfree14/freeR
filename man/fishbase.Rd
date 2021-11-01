@@ -11,7 +11,7 @@ fishbase(dataset, species, level = "species", cleaned = F, add_taxa = T)
 
 \item{species}{A character vector of species scientific names to look up}
 
-\item{level}{Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.}
+\item{level}{Download life history data for just the provided species ("species") or for all species in the genera ("genus"), families ("family"), or orders ("order") represented in the requested species list.}
 
 \item{cleaned}{FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns}
 

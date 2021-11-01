@@ -5,7 +5,7 @@
 #'
 #' @param dataset FishBase/SeaLifeBase dataset to download: species, stocks, lw, vonb, ecology, maturity, fecundity, reproduction, morphology, ecosystem, speed
 #' @param species A character vector of species scientific names to look up
-#' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus") or families ("family") represented in the requested species list.
+#' @param level Download life history data for just the provided species ("species") or for all species in the genera ("genus"), families ("family"), or orders ("order") represented in the requested species list.
 #' @param cleaned FALSE means you get all of the data and TRUE means you get a cleaned subset of important columns
 #' @param add_taxa TRUE means taxonomic information is added to the life history data
 #' @return A dataframe of life history traits from FishBase/SeaLifeBase
@@ -41,6 +41,13 @@ fishbase <- function(dataset, species, level="species", cleaned=F, add_taxa=T){
       unique() %>% arrange()
     spp_list <- fbtaxa %>%
       filter(family %in% spp_families$family)
+  }
+  if(level=="order"){
+    spp_orders <- freeR::taxa(species_unique) %>%
+      select(order) %>%
+      unique() %>% arrange()
+    spp_list <- fbtaxa %>%
+      filter(order %in% spp_orders$order)
   }
 
   # LW parameters
