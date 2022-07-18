@@ -12,7 +12,7 @@
 all_fish <- function(){
 
   # Build FB key
-  taxa_key_fb <- rfishbase::load_taxa(server="https://fishbase.ropensci.org") %>%
+  taxa_key_fb <- rfishbase::load_taxa(server="fishbase") %>% # server="https://fishbase.ropensci.org"
     as.data.frame() %>%
     mutate(type="fish") %>%
     select(type, everything()) %>%
@@ -22,7 +22,7 @@ all_fish <- function(){
     mutate_all(as.character)
 
   # Build SLB key
-  taxa_key_slb <- rfishbase::sealifebase %>%
+  taxa_key_slb <- rfishbase::load_taxa(server="sealifebase") %>% # rfishbase::sealifebase %>%
     as.data.frame() %>%
     mutate(type="invert") %>%
     select(type, everything()) %>%
