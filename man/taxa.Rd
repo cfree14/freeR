@@ -17,6 +17,6 @@ Get taxonomic info for marine fish and invertebrates from FishBase/SeaLifeBase.
 }
 \examples{
 # Get taxonomic info
-species <- c("Gadus morhua", "Centropristis striata")
+species <- c("Gadus morhua", "Centropristis striata", "Crassostrea gigas")
 taxa(species)
 }

@@ -17,8 +17,7 @@ all_fish <- function(){
     mutate(type="fish") %>%
     select(type, everything()) %>%
     setNames(tolower(colnames(.))) %>%
-    rename(sciname=species) %>%
-    mutate(species=stringr::word(sciname, start=2, end=sapply(strsplit(sciname, " "), length))) %>%
+    mutate(sciname=paste(genus, species)) %>%
     mutate_all(as.character)
 
   # Build SLB key

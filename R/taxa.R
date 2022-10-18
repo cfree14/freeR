@@ -7,7 +7,7 @@
 #' @return A dataframe of taxonomic information
 #' @examples
 #' # Get taxonomic info
-#' species <- c("Gadus morhua", "Centropristis striata")
+#' species <- c("Gadus morhua", "Centropristis striata", "Crassostrea gigas")
 #' taxa(species)
 #' @export
 taxa <- function(species){
