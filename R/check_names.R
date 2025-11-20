@@ -12,31 +12,11 @@
 #' @export
 check_names <- function(species){
 
-  # FishBase taxa
-  taxa_key_fb <- rfishbase::fishbase %>%
-    as.data.frame() %>%
-    dplyr::mutate(type="fish") %>%
-    dplyr::select(type, everything()) %>%
-    setNames(tolower(colnames(.))) %>%
-    dplyr::mutate(sciname=paste(genus, species))
-
-  # SeaLifeBase taxa
-  taxa_key_slb <- rfishbase::sealifebase %>%
-    as.data.frame() %>%
-    dplyr::mutate(type="invert") %>%
-    dplyr::select(type, everything()) %>%
-    setNames(tolower(colnames(.))) %>%
-    dplyr::mutate(sciname=paste(genus, species))
-
-  # Merged taxa
-  taxa_key <-  taxa_key_fb %>%
-    bind_rows(taxa_key_slb) %>%
-    setNames(tolower(names(.))) %>%
-    dplyr::select(type, class, order, family, genus, species, sciname) %>%
-    unique()
+  # All FB/SLB taxa
+  fbtaxa <- freeR::all_fish()
 
   # Check that species are in FB/SLB
-  spp_wrong <- sort(unique(species[!species %in% taxa_key$sciname]))
+  spp_wrong <- sort(unique(species[!species %in% fbtaxa$sciname]))
   return(spp_wrong)
 
 }
